@@ -37,7 +37,7 @@ namespace FluxAPI
 
             if (!IsAdmin())
             {
-                ThreadBox.MsgThread("Application is recommended to run with Administrator Privileges.", "Fluxus API", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                ThreadBox.MsgThread("Application need to executed with Administrator Privileges.", "Fluxus API", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Application.Exit();
                 Environment.Exit(0);
             }
