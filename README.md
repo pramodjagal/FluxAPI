@@ -8,7 +8,8 @@ There are more ports of this type, like this thread on [WeAreDevs](https://forum
 
 This Class Library I created uses the [JJploit](https://wearedevs.net/dinfo/JJSploit) DLLs, provided by [Fluxus](https://fluxteam.net).
 
-### How to create a simple executor with FluxAPI:
+## Documentation
+#### How to create a simple executor with FluxAPI:
 Add the FluxAPI.dll to references of your Visual Studio Project, we need the next things:
 - .NET Framework 4.8 Project (Windows Forms or WPF (Windows Presentation Framework))
 - x86 Build Configuration
