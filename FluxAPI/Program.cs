@@ -76,13 +76,7 @@ namespace FluxAPI
                 await Utility.DownloadAsync(ModuleUrl, ModulePath); 
                 await Utility.DownloadAsync(FluxURL, FluxPath);
             }
-            catch (Exception ex)
-            {
-                ThreadBox.MsgThread("DLLs are already downloaded or are being used by Windows10Universal.exe" +
-                                    "\nThis may happened because you opened a new executor instance." +
-                                    "\nClose all related to FluxAPI.dll and try again." +
-                                    "\nException:\n" + ex.Message);
-            }
+            catch (Exception) { }
         }
 
         public void Inject()
