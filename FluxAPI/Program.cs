@@ -45,7 +45,7 @@ namespace FluxAPI
             IsInitialized = true;
         }
 
-        public async Task CreateDirectories()
+        public Task CreateDirectories()
         {
             if (!Directory.Exists(PreFlux))
             {
@@ -55,6 +55,8 @@ namespace FluxAPI
                     Directory.CreateDirectory(PostFlux);
                 }
             }
+
+            return Task.CompletedTask;
         }
 
         private bool IsAdmin()

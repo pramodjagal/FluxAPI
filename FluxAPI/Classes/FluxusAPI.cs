@@ -16,6 +16,7 @@ using System.Windows.Forms;
  *
  * Fluxus UWP API (https://fluxteam.net)
  * Provided by Fluxteam.
+ * 
  */
 
 namespace FluxAPI.Classes
@@ -69,6 +70,7 @@ namespace FluxAPI.Classes
 
         [DllImport("C:\\ProgramData\\Fluxus\\FluxusAPI\\FluxteamAPI.dll", CallingConvention = CallingConvention.StdCall)]
         public static extern bool inject_dll(int pid, [MarshalAs(UnmanagedType.LPWStr)] string script);
+
 
         private static Result r_inject(string dll_path)
         {
@@ -197,7 +199,7 @@ namespace FluxAPI.Classes
 
         public static bool is_injected(int pid)
         {
-            phandle = OpenProcess(1082U, false, pid);
+            phandle = OpenProcess(0x43AU, false, pid);
             return is_injected(phandle, pid, dll_path);
         }
 
