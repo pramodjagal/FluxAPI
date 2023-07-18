@@ -1,9 +1,9 @@
-﻿using System;
+﻿using FluxAPI.Classes;
+using System;
 using System.IO;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Security.Principal;
-using FluxAPI.Classes;
 
 namespace FluxAPI
 {
@@ -37,7 +37,7 @@ namespace FluxAPI
 
             if (!IsAdmin())
             {
-                ThreadBox.MsgThread("Application need to executed with Administrator Privileges.", "Fluxus API", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                ThreadBox.MsgThread("Application need to be executed with Administrator Privileges.", "Fluxus API", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Application.Exit();
                 Environment.Exit(0);
             }
@@ -75,7 +75,7 @@ namespace FluxAPI
         {
             try
             {
-                await Utility.DownloadAsync(ModuleUrl, ModulePath); 
+                await Utility.DownloadAsync(ModuleUrl, ModulePath);
                 await Utility.DownloadAsync(FluxURL, FluxPath);
             }
             catch (Exception) { }
