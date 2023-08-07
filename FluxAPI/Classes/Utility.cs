@@ -21,7 +21,7 @@ namespace FluxAPI.Classes
 
         public static void Cw(string cwMsg)
         {
-            Console.WriteLine("[ " + DateTime.Now.ToString("dd.MM.yyyy - HH:mm:ss") + " ] " + cwMsg);
+            Console.WriteLine("[ " + DateTime.Now.ToString("HH:mm:ss") + " ] " + cwMsg);
         }
     }
 }

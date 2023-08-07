@@ -1,9 +1,11 @@
 ﻿using FluxAPI.Classes;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Threading;
 
 namespace FluxAPI
 {
@@ -16,13 +18,16 @@ namespace FluxAPI
         public static readonly string FluxPath = Path.Combine(PostFlux, "FluxteamAPI.dll");
         private static readonly string ModuleUrl = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/Module.dll";
         private static readonly string FluxURL = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/FluxteamAPI.dll";
+        public static System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+        private static string InitString;
+        private static bool ExecutorSet = false;
+        public bool DoAutoAttach = false;
 
         public bool IsInitialized;
 
-        public void InitializeAPI()
+        public void InitializeAPI(string ExecutorName = "")
         {
             _ = CreateDirectories();
-
             _ = DownloadDLLs();
             try
             {
@@ -43,6 +48,32 @@ namespace FluxAPI
             }
 
             IsInitialized = true;
+            SetExecutorName(ExecutorName);
+            runAutoAttachTimer();
+        }
+
+        public void SetExecutorName(string executorName)
+        {
+            InitString =
+                $"function Export(a,b)getgenv()[a]=b end;Export('identifyexecutor',function()return'{executorName}'end)Export('getexecutorname',function()return'{executorName}'end)";
+
+            ExecutorSet = true;
+        }
+
+        public void RunInit(object sender, EventArgs e)
+        {
+            var flag = FluxusAPI.is_injected(FluxusAPI.pid);
+
+            if (flag)
+            {
+                try
+                {
+                    FluxusAPI.run_script(FluxusAPI.pid, InitString);
+                }
+                catch { }
+            }
+
+            Task.Delay(200);
         }
 
         public Task CreateDirectories()
@@ -69,6 +100,13 @@ namespace FluxAPI
             }
 
             return isElevated;
+        }
+
+        public void RunInternalFunctions()
+        {
+            timer.Tick += RunInit;
+            timer.Interval = TimeSpan.FromSeconds(5);
+            timer.Start();
         }
 
         public async Task DownloadDLLs()
@@ -134,7 +172,7 @@ namespace FluxAPI
                 var flag = FluxusAPI.is_injected(FluxusAPI.pid);
                 if (flag)
                 {
-                    FluxusAPI.run_script(FluxusAPI.pid, src);
+                    FluxusAPI.run_script(FluxusAPI.pid, $"{InitString}; {src}");
                     Utility.Cw("Script executed");
                 }
                 else
@@ -150,6 +188,43 @@ namespace FluxAPI
                         + ex.Message
                         + "\nStack Trace:\n"
                         + ex.StackTrace);
+            }
+        }
+
+        public void runAutoAttachTimer()
+        {
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Tick += AttachedDetectorTick;
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Start();
+        }
+
+        private void AttachedDetectorTick(object sender, EventArgs e)
+        {
+            if (DoAutoAttach == false)
+            {
+                return;
+            }
+
+            var processesByName = Process.GetProcessesByName("Windows10Universal");
+            foreach (var Process in processesByName)
+            {
+                var FilePath = Process.MainModule.FileName;
+
+                if (FilePath.Contains("ROBLOX"))
+                {
+                    try
+                    {
+                        var flag = FluxusAPI.is_injected(FluxusAPI.pid);
+                        if (flag)
+                        {
+                            return;
+                        }
+
+                        Inject();
+                    }
+                    catch { }
+                }
             }
         }
     }

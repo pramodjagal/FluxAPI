@@ -39,10 +39,19 @@ Fluxus.InitializeAPI();
 /* If you want to ensure it downloads the DLLs you can put Fluxus.DownloadDLLs();
 below the InitializeAPI line (not recommended). */
 ```
+If we want to add a custom identifyexecutor()/getexecutorname, we'll need to do:
+```csharp
+Fluxus.InitializeAPI("Executor Name");
+```
 
 We start the nice things, how to inject, is super-simple, just do: 
 ```csharp
 Fluxus.Inject();
+```
+
+If we want to do auto attach and handle it. We'll need to do:
+```csharp
+Fluxus.DoAutoAttach = true;
 ```
 
 For executing we need a Textbox in our project, here is an example:
