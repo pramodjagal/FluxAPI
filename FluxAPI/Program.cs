@@ -11,18 +11,19 @@ namespace FluxAPI
 {
     public class Flux
     {
-        public static readonly string ProgramData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-        public static readonly string PreFlux = Path.Combine(ProgramData, "Fluxus");
-        public static readonly string PostFlux = Path.Combine(PreFlux, "FluxusAPI");
-        public static readonly string ModulePath = Path.Combine(PostFlux, "Module.dll");
-        public static readonly string FluxPath = Path.Combine(PostFlux, "FluxteamAPI.dll");
-        private static readonly string ModuleUrl = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/Module.dll";
-        private static readonly string FluxURL = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/FluxteamAPI.dll";
-        public static DispatcherTimer timer = new DispatcherTimer();
-        private static string InitString;
+        internal static readonly string ProgramData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        internal static readonly string PreFlux = Path.Combine(ProgramData, "Fluxus");
+        internal static readonly string PostFlux = Path.Combine(PreFlux, "FluxusAPI");
+        internal static readonly string ModulePath = Path.Combine(PostFlux, "Module.dll");
+        internal static readonly string FluxPath = Path.Combine(PostFlux, "FluxteamAPI.dll");
+        internal static readonly string ModuleUrl = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/Module.dll";
+        internal static readonly string FluxURL = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/FluxteamAPI.dll";
+        internal static DispatcherTimer timer = new DispatcherTimer();
+        internal static string InitString;
         public bool DoAutoAttach = false;
 
-        public bool IsInitialized;
+        internal bool IsInitialized;
+        public bool IsInjected = FluxusAPI.is_injected(FluxusAPI.pid);
 
         public void InitializeAPI(string ExecutorName = "")
         {
@@ -50,13 +51,13 @@ namespace FluxAPI
             runAutoAttachTimer();
         }
 
-        public void SetExecutorName(string executorName)
+        internal void SetExecutorName(string executorName)
         {
             InitString =
                 $"local a=\"{executorName}\"local b;function Export(c,d)getgenv()[c]=d end;function HookedRequest(e)local f=e.Headers or{{}}f['User-Agent']=a;return b({{Url=e.Url,Method=e.Method or\"GET\",Headers=f,Cookies=e.Cookies or{{}},Body=e.Body or\"\"}})end;b=hookfunction(request,HookedRequest)b=hookfunction(http.request,HookedRequest)b=hookfunction(http_request,HookedRequest)Export(\"identifyexecutor\",function()return EXPLOIT_NAME,EXLPOIT_VERSION end)Export(\"getexecutorname\",function()return EXPLOIT_NAME,EXLPOIT_VERSION end)";
         }
 
-        public void RunInit(object sender, EventArgs e)
+        internal void RunInit(object sender, EventArgs e)
         {
             var flag = FluxusAPI.is_injected(FluxusAPI.pid);
 
@@ -72,7 +73,7 @@ namespace FluxAPI
             Task.Delay(200);
         }
 
-        public Task CreateDirectories()
+        internal Task CreateDirectories()
         {
             if (!Directory.Exists(PreFlux))
             {
@@ -86,7 +87,7 @@ namespace FluxAPI
             return Task.CompletedTask;
         }
 
-        private bool IsAdmin()
+        internal bool IsAdmin()
         {
             bool isElevated;
             using (WindowsIdentity identity = WindowsIdentity.GetCurrent())
@@ -187,7 +188,7 @@ namespace FluxAPI
             }
         }
 
-        public void runAutoAttachTimer()
+        internal void runAutoAttachTimer()
         {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Tick += AttachedDetectorTick;
@@ -195,7 +196,7 @@ namespace FluxAPI
             timer.Start();
         }
 
-        private void AttachedDetectorTick(object sender, EventArgs e)
+        internal void AttachedDetectorTick(object sender, EventArgs e)
         {
             if (DoAutoAttach == false)
             {

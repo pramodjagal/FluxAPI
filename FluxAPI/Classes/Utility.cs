@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace FluxAPI.Classes
 {
-    public static class Utility
+    internal static class Utility
     {
         internal static WebClient webClient = new WebClient();
 
