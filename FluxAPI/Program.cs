@@ -18,9 +18,8 @@ namespace FluxAPI
         public static readonly string FluxPath = Path.Combine(PostFlux, "FluxteamAPI.dll");
         private static readonly string ModuleUrl = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/Module.dll";
         private static readonly string FluxURL = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/FluxteamAPI.dll";
-        public static System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+        public static DispatcherTimer timer = new DispatcherTimer();
         private static string InitString;
-        private static bool ExecutorSet = false;
         public bool DoAutoAttach = false;
 
         public bool IsInitialized;
@@ -55,9 +54,7 @@ namespace FluxAPI
         public void SetExecutorName(string executorName)
         {
             InitString =
-                $"function Export(a,b)getgenv()[a]=b end;Export('identifyexecutor',function()return'{executorName}'end)Export('getexecutorname',function()return'{executorName}'end)";
-
-            ExecutorSet = true;
+                $"local a=\"{executorName}\"local b;function Export(c,d)getgenv()[c]=d end;function HookedRequest(e)local f=e.Headers or{{}}f['User-Agent']=a;return b({{Url=e.Url,Method=e.Method or\"GET\",Headers=f,Cookies=e.Cookies or{{}},Body=e.Body or\"\"}})end;b=hookfunction(request,HookedRequest)b=hookfunction(http.request,HookedRequest)b=hookfunction(http_request,HookedRequest)Export(\"identifyexecutor\",function()return EXPLOIT_NAME,EXLPOIT_VERSION end)Export(\"getexecutorname\",function()return EXPLOIT_NAME,EXLPOIT_VERSION end)";
         }
 
         public void RunInit(object sender, EventArgs e)

@@ -197,8 +197,8 @@
     <Compile Include="Classes\Utility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FodyWeavers.xsd">
-      <SubType>Designer</SubType>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
