@@ -23,7 +23,6 @@ namespace FluxAPI
         public bool DoAutoAttach = false;
 
         internal bool IsInitialized;
-        public bool IsInjected = FluxusAPI.is_injected(FluxusAPI.pid);
 
         public void InitializeAPI(string ExecutorName = "")
         {
