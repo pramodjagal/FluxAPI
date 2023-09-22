@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Fluxus API")]
-[assembly: AssemblyDescription("Fluxus API Dynamic-Link Library")]
+[assembly: AssemblyTitle("FluxAPI")]
+[assembly: AssemblyDescription("FluxAPI Dynamic-Link Library")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Fluxus")]
-[assembly: AssemblyProduct("Fluxus")]
+[assembly: AssemblyCompany("Flux")]
+[assembly: AssemblyProduct("Flux")]
 [assembly: AssemblyCopyright("Copyright (c) ItzzExcel 2023")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("07.08.2023")]
-[assembly: AssemblyFileVersion("07.08.2023")]
+[assembly: AssemblyVersion("22.09.2023")]
+[assembly: AssemblyFileVersion("22.09.2023")]
