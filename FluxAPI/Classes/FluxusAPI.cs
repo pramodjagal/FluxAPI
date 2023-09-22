@@ -21,7 +21,7 @@ using System.Windows.Forms;
 
 namespace FluxAPI.Classes
 {
-    internal static class FluxusAPI
+    public static class FluxusAPI
     {
         public enum Result : uint
         {

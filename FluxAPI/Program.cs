@@ -15,6 +15,9 @@ namespace FluxAPI
         private static readonly string PreFlux = Path.Combine(ProgramData, "Fluxus");
         private static readonly string PostFlux = Path.Combine(PreFlux, "FluxusAPI");
         private static readonly string ModulePath = Path.Combine(PostFlux, "Module.dll");
+        private static readonly string FluxPath = Path.Combine(PostFlux, "FluxteamAPI.dll");
+        private static readonly string ModuleUrl = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/Module.dll";
+        private static readonly string FluxURL = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/FluxteamAPI.dll";
 
         private static string InitString;
         public bool DoAutoAttach = false;
@@ -27,11 +30,11 @@ namespace FluxAPI
         public void InitializeAPI(string ExecutorName = "")
         {
             _ = CreateDirectories();
-            DownloadDLLs();
+            _ = DownloadDLLs();
             try
             {
                 _ = CreateDirectories();
-                DownloadDLLs();
+                _ = DownloadDLLs();
                 FluxusAPI.create_files(ModulePath);
             }
             catch (Exception)
@@ -41,8 +44,9 @@ namespace FluxAPI
 
             if (!IsAdmin())
             {
-                ThreadBox.MsgThread("The application must be executed with Administrator privileges.", "Fluxus API", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                ThreadBox.MsgThread("Application need to be executed with Administrator Privileges.", "Fluxus API", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Application.Exit();
+                Environment.Exit(0);
             }
 
             IsInitialized = true;
@@ -53,7 +57,7 @@ namespace FluxAPI
         public void SetExecutorName(string executorName)
         {
             InitString =
-                $"local a=\"{executorName}\"local b;function HookedRequest(c)local d=c.Headers or{{}}d['User-Agent']=a;return b({{Url=c.Url,Method=c.Method or\"GET\",Headers=d,Cookies=c.Cookies or{{}},Body=c.Body or\"\"}})end;b=hookfunction(request,HookedRequest)b=hookfunction(http.request,HookedRequest)b=hookfunction(http_request,HookedRequest)function Export(e,f)getgenv()[e]=f end;Export(\"identifyexecutor\",function()return a end)Export(\"getexecutorname\",function()return a end)";
+                $"local a=\"{executorName}\"local b;function Hookin()return a end;b=hookfunction(request,function(c)local d=c.Headers or{{}}d['User-Agent']=a;return b({{Url=c.Url,Method=c.Method or\"GET\",Headers=d,Cookies=c.Cookies or{{}},Body=c.Body or\"\"}})end)b=hookfunction(http.request,function(c)local d=c.Headers or{{}}d['User-Agent']=a;return b({{Url=c.Url,Method=c.Method or\"GET\",Headers=d,Cookies=c.Cookies or{{}},Body=c.Body or\"\"}})end)b=hookfunction(http_request,function(c)local d=c.Headers or{{}}d['User-Agent']=a;return b({{Url=c.Url,Method=c.Method or\"GET\",Headers=d,Cookies=c.Cookies or{{}},Body=c.Body or\"\"}})end)hookfunction(identifyexecutor,Hookin)hookfunction(getexecutorname,Hookin)";
         }
 
         public void RunInit(object sender, EventArgs e)
@@ -86,11 +90,6 @@ namespace FluxAPI
             return Task.CompletedTask;
         }
 
-        public bool IsInjected()
-        {
-            return FluxusAPI.is_injected(FluxusAPI.pid);
-        }
-
         private bool IsAdmin()
         {
             bool isElevated;
@@ -110,13 +109,14 @@ namespace FluxAPI
             timer.Start();
         }
 
-        public void DownloadDLLs()
+        public async Task DownloadDLLs()
         {
             try
             {
-                Updater.RedownloadModules();
+                await Utility.DownloadAsync(ModuleUrl, ModulePath);
+                await Utility.DownloadAsync(FluxURL, FluxPath);
             }
-            catch { }
+            catch (Exception) { }
         }
 
         public void Inject()
@@ -173,13 +173,22 @@ namespace FluxAPI
                 if (flag)
                 {
                     FluxusAPI.run_script(FluxusAPI.pid, $"{InitString}; {src}");
+                    Utility.Cw("Script executed");
                 }
                 else
                 {
                     ThreadBox.MsgThread("Inject API before running script.", "Fluxus API", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                ThreadBox.MsgThread("Fluxus couldn't run the script.", "Fluxus API",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Utility.Cw("Exception from Fluxus:\n"
+                        + ex.Message
+                        + "\nStack Trace:\n"
+                        + ex.StackTrace);
+            }
         }
 
         public void runAutoAttachTimer()

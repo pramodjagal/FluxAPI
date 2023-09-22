@@ -4,16 +4,18 @@ FluxAPI, simple exploit API.
 ## DISCLAIMER
 To whom it may concern,
 
-I hereby declare that I have created an open-source exploit API named "FluxAPI" solely for educational purposes. I explicitly refuse any responsibility for any misuse or illegal activities that may arise from the use of this API. The code is provided "as is", without any warranty, and users assume all risks associated with its use.
+I hereby declare that I have created an open-source exploit API named "FluxAPI" solely for educational purposes. I explicitly refuse any responsibility for any misuse or illegal activities that may arise from the use of this API. The code is provided "as is," without any warranty, and users assume all risks associated with its use.
 <br><br>
 I do not condone or support any unethical or malicious activities that may be facilitated using FluxAPI. It is the responsibility of the users to ensure that they comply with all applicable laws and regulations while using this API.
 <br><br>
 I urge all users to use FluxAPI only for educational purposes and to refrain from using it for any illegal or unethical activities. By using this API, users acknowledge and agree to assume all risks associated with its use.
 
 ## How this works
+JJSploit, by WeAreDevs got dissasembled and a guy on [GitHub uploaded a repository](https://github.com/MoistMonkey420/MicrosoftRobloxFluxAPI/tree/main/RobloxLuaGitHub)
+showing an example of how to use it.
 There are more ports of this type, like this thread on [WeAreDevs](https://forum.wearedevs.net/t/34077)
 
-This Class Library I created uses the [Fluxus](https://fluxteam.net) DLLs.
+This Class Library I created uses the [JJploit](https://wearedevs.net/dinfo/JJSploit) DLLs, provided by [Fluxus](https://fluxteam.net).
 
 ## Documentation
 #### How to create a simple executor with FluxAPI:
