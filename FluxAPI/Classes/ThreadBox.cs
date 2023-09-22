@@ -20,7 +20,6 @@ namespace FluxAPI.Classes
                 }
             );
             msgBoxThread.Start();
-            Utility.Cw(msgBoxTitle + ", " + msgBoxContent);
         }
     }
 }
