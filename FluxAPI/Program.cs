@@ -53,7 +53,7 @@ namespace FluxAPI
         internal void SetExecutorName(string executorName)
         {
             InitString =
-                $"local a=\"{executorName}\"local b;function Export(c,d)getgenv()[c]=d end;function HookedRequest(e)local f=e.Headers or{{}}f['User-Agent']=a;return b({{Url=e.Url,Method=e.Method or\"GET\",Headers=f,Cookies=e.Cookies or{{}},Body=e.Body or\"\"}})end;b=hookfunction(request,HookedRequest)b=hookfunction(http.request,HookedRequest)b=hookfunction(http_request,HookedRequest)Export(\"identifyexecutor\",function()return EXPLOIT_NAME,EXLPOIT_VERSION end)Export(\"getexecutorname\",function()return EXPLOIT_NAME,EXLPOIT_VERSION end)";
+                $"local a=\"{executorName}\"local b;function Export(c,d)getgenv()[c]=d end;function HookedRequest(e)local f=e.Headers or{{}}f['User-Agent']=a;return b({{Url=e.Url,Method=e.Method or\"GET\",Headers=f,Cookies=e.Cookies or{{}},Body=e.Body or\"\"}})end;b=hookfunction(request,HookedRequest)b=hookfunction(http.request,HookedRequest)b=hookfunction(http_request,HookedRequest)Export(\"identifyexecutor\",function()return a end)Export(\"getexecutorname\",function()return a end)";
         }
 
         internal void RunInit(object sender, EventArgs e)
