@@ -11,19 +11,17 @@ namespace FluxAPI
 {
     public class Flux
     {
-        private static readonly string ProgramData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-        private static readonly string PreFlux = Path.Combine(ProgramData, "Fluxus");
-        private static readonly string PostFlux = Path.Combine(PreFlux, "FluxusAPI");
-        private static readonly string ModulePath = Path.Combine(PostFlux, "Module.dll");
-        private static readonly string FluxPath = Path.Combine(PostFlux, "FluxteamAPI.dll");
+        public static readonly string ProgramData = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+        public static readonly string PreFlux = Path.Combine(ProgramData, "Fluxus");
+        public static readonly string PostFlux = Path.Combine(PreFlux, "FluxusAPI");
+        public static readonly string ModulePath = Path.Combine(PostFlux, "Module.dll");
+        public static readonly string FluxPath = Path.Combine(PostFlux, "FluxteamAPI.dll");
         private static readonly string ModuleUrl = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/Module.dll";
         private static readonly string FluxURL = "https://github.com/ItzzExcel/LInjectorRedistributables/raw/main/extra/FluxteamAPI.dll";
-
+        public static System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
         private static string InitString;
+        private static bool ExecutorSet = false;
         public bool DoAutoAttach = false;
-        public bool IsAttached = FluxusAPI.is_injected(FluxusAPI.pid);
-
-        private static DispatcherTimer timer = new DispatcherTimer();
 
         public bool IsInitialized;
 
@@ -57,7 +55,9 @@ namespace FluxAPI
         public void SetExecutorName(string executorName)
         {
             InitString =
-                $"local a=\"{executorName}\"local b;function Hookin()return a end;b=hookfunction(request,function(c)local d=c.Headers or{{}}d['User-Agent']=a;return b({{Url=c.Url,Method=c.Method or\"GET\",Headers=d,Cookies=c.Cookies or{{}},Body=c.Body or\"\"}})end)b=hookfunction(http.request,function(c)local d=c.Headers or{{}}d['User-Agent']=a;return b({{Url=c.Url,Method=c.Method or\"GET\",Headers=d,Cookies=c.Cookies or{{}},Body=c.Body or\"\"}})end)b=hookfunction(http_request,function(c)local d=c.Headers or{{}}d['User-Agent']=a;return b({{Url=c.Url,Method=c.Method or\"GET\",Headers=d,Cookies=c.Cookies or{{}},Body=c.Body or\"\"}})end)hookfunction(identifyexecutor,Hookin)hookfunction(getexecutorname,Hookin)";
+                $"function Export(a,b)getgenv()[a]=b end;Export('identifyexecutor',function()return'{executorName}'end)Export('getexecutorname',function()return'{executorName}'end)";
+
+            ExecutorSet = true;
         }
 
         public void RunInit(object sender, EventArgs e)
